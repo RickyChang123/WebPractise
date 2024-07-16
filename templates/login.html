@@ -1,0 +1,97 @@
+{% extends "base.html" %} {% block content %}
+
+<img class="fix-img" src="../static/upload/math.jpg" alt="" />
+<style>
+  .center-form {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+  }
+</style>
+
+<div class="center-form">
+  <h3 class="text-center">登入</h3>
+  <form method="get" id="loginForm">
+    <div class="mb-3">
+      <label for="InputEmail" class="form-label">Email address</label>
+      <input
+        type="email"
+        class="form-control"
+        id="InputEmail"
+        aria-describedby="emailHelp"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="InputPassword" class="form-label">Password</label>
+      <input type="password" class="form-control" id="InputPassword" />
+    </div>
+    <div class="text-fluid">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        id="submit"
+        style="width: 100%"
+      >
+        Submit
+      </button>
+    </div>
+    <br />
+    <div class="text-center">
+      <a href="/register" id="register">register</a>
+    </div>
+    <br />
+
+    <div class="text-center">
+      <p id="message" style="color: red"></p>
+    </div>
+  </form>
+</div>
+
+<div class="empty-container"></div>
+
+<script>
+  // $(function () {
+  //   document
+  //     .getElementById("loginForm")
+  //     .addEventListener("submit", function (e) {
+  //       e.preventDefault();
+
+  //       let email = document.getElementById("InputEmail").value;
+  //       let password = document.getElementById("InputPassword").value;
+
+  //       let user = { email: email, password: password };
+
+  //       localStorage.setItem("user", JSON.stringify(user));
+  //     });
+  // });
+  $(function () {
+    $("#loginForm").on("submit", function (e) {
+      e.preventDefault();
+      let email = $("#InputEmail").val();
+      let password = $("#InputPassword").val();
+
+      if (email === "" || password === "") {
+        $("#message").text("Email and password cannot be empty!");
+        return;
+      }
+
+      $.ajax({
+        type: "POST",
+        url: "/login",
+        data: { email: email, password: password },
+        success: function (response) {
+          if (response.status === "success") {
+            window.location.href = "/myHome";
+          } else {
+            $("#message").text(response.message);
+          }
+        },
+      });
+    });
+  });
+</script>
+
+{% endblock %}
