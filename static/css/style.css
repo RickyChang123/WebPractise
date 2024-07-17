@@ -134,3 +134,9 @@ body {
 .container-fluid {
   background-color: white;
 }
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
